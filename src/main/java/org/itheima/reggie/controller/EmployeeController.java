@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.itheima.reggie.common.BaseContext;
 import org.itheima.reggie.common.R;
 import org.itheima.reggie.entity.Employee;
 import org.itheima.reggie.service.EmployeeService;
@@ -42,7 +43,6 @@ public class EmployeeController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("employee", emp.getId());
-
         return R.success(emp);
     }
 
@@ -65,11 +65,7 @@ public class EmployeeController {
         log.info("新增员工");
 
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setCreateUser((Long) request.getSession().getAttribute("employee"));
-        employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
-        employeeService.save(employee);
+          employeeService.save(employee);
         return R.success("新增员工成功");
     }
 
@@ -88,6 +84,33 @@ public class EmployeeController {
         Page page2 = employeeService.page(page1, lambdaQueryWrapper);
         return R.success(page2);
     }
+
+
+    /*
+    *
+    * 根据id修改信息
+    * */
+    @PutMapping
+    public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
+        Long employee1 = (Long)request.getSession().getAttribute("employee");
+        employeeService.updateById(employee);
+        return R.success("员工信息修改成功");
+    }
+/*
+* 根据ID查询用户*/
+    @GetMapping("/{id}")
+    public R<Employee> getId(@PathVariable long id){
+
+log.info(""+id);
+        Employee byId = employeeService.getById(id);
+        if (byId != null) {
+            return R.success(byId);
+        }
+
+        return R.error("没有查询到id");
+    }
+
+
 
 }
 

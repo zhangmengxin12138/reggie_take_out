@@ -2,6 +2,7 @@ package org.itheima.reggie.filter;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.itheima.reggie.common.BaseContext;
 import org.itheima.reggie.common.R;
 import org.springframework.util.AntPathMatcher;
 
@@ -41,6 +42,7 @@ public class LoginCheckFilter implements Filter {
         }
         if (request.getSession().getAttribute("employee")!=null) {
             log.info("已登陆放行");
+            BaseContext.setThreadContext((Long) request.getSession().getAttribute("employee"));
             filterChain.doFilter(request,response);
             return;
         }
