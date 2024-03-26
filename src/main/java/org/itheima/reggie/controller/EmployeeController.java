@@ -77,7 +77,7 @@ public class EmployeeController {
 
 
         log.info("page={},pageSize={},name={}", page, pageSize, name);
-        Page page1 = new Page(page, pageSize);
+        Page<Employee> page1 = new Page(page, pageSize);
         LambdaQueryWrapper<Employee> lambdaQueryWrapper = new LambdaQueryWrapper();
         lambdaQueryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
         lambdaQueryWrapper.orderByDesc(Employee::getUpdateTime);
