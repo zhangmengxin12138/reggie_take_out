@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.itheima.reggie.Dto.DishDto;
 import org.itheima.reggie.common.R;
 import org.itheima.reggie.entity.Category;
 import org.itheima.reggie.entity.Employee;
@@ -62,11 +63,10 @@ public class CategoryController {
     @GetMapping("/list")
     public R<List<Category>> list(Category category) {
         LambdaQueryWrapper<Category> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(category.getType()!=null, Category::getType, category.getType());
+        lambdaQueryWrapper.eq(category.getType() != null, Category::getType, category.getType());
         lambdaQueryWrapper.orderByAsc(Category::getSort).orderByAsc(Category::getUpdateTime);
         List<Category> list = categoryService.list(lambdaQueryWrapper);
         return R.success(list);
-
     }
 
 
