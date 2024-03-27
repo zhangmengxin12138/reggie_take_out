@@ -33,6 +33,7 @@ public class LoginCheckFilter implements Filter {
                 "/employee/logout",
                 "/backend/**",
                 "front/**"
+
         };
         boolean check = check(urls, requestURI);
         if (check) {
@@ -48,7 +49,7 @@ public class LoginCheckFilter implements Filter {
         }
 
         log.info("返回错误标识");
-           response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
+        response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
         return;
 
     }
